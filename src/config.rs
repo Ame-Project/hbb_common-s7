@@ -39,7 +39,7 @@ pub const REG_INTERVAL: i64 = 15_000;
 pub const COMPRESS_LEVEL: i32 = 3;
 const SERIAL: i32 = 3;
 const PASSWORD_ENC_VERSION: &str = "00";
-pub const ENCRYPT_MAX_LEN: usize = 128; // used for password, pin, etc, not for all
+pub const ENCRYPT_MAX_LEN: usize = 128; // used for password, pin, etc., not for all
 
 #[cfg(target_os = "macos")]
 lazy_static::lazy_static! {
@@ -955,7 +955,9 @@ impl Config {
     }
 
     pub fn no_register_device() -> bool {
-        BUILTIN_SETTINGS.read().unwrap()
+        BUILTIN_SETTINGS
+            .read()
+            .unwrap()
             .get(keys::OPTION_REGISTER_DEVICE)
             .map(|v| v == "N")
             .unwrap_or(false)
@@ -1366,7 +1368,7 @@ impl PeerConfig {
     }
 
     // The number of peers to load in the first round when showing the peers card list in the main window.
-    // When there're too many peers, loading all of them at once will take a long time.
+    // When there are too many peers, loading all of them at once will take a long time.
     // We can load them in two rouds, the first round loads the first 100 peers, and the second round loads the rest.
     // Then the UI will show the first 100 peers first, and the rest will be loaded and shown later.
     pub const BATCH_LOADING_COUNT: usize = 100;
@@ -1900,7 +1902,7 @@ pub struct UserDefaultConfig {
 impl UserDefaultConfig {
     fn read(key: &str) -> String {
         let mut cfg = USER_DEFAULT_CONFIG.write().unwrap();
-        // we do so, because default config may changed in another process, but we don't sync it
+        // we do so, because default config may change in another process, but we don't sync it
         // but no need to read every time, give a small interval to avoid too many redundant read waste
         if cfg.1.elapsed() > Duration::from_secs(1) {
             *cfg = (Self::load(), Instant::now());
@@ -2465,6 +2467,7 @@ pub mod keys {
     pub const OPTION_ENABLE_HWCODEC: &str = "enable-hwcodec";
     pub const OPTION_APPROVE_MODE: &str = "approve-mode";
     pub const OPTION_VERIFICATION_METHOD: &str = "verification-method";
+    pub const OPTION_TEMPORARY_PASSWORD_LENGTH: &str = "temporary-password-length";
     pub const OPTION_CUSTOM_RENDEZVOUS_SERVER: &str = "custom-rendezvous-server";
     pub const OPTION_API_SERVER: &str = "api-server";
     pub const OPTION_KEY: &str = "key";
@@ -2638,6 +2641,7 @@ pub mod keys {
         OPTION_ENABLE_HWCODEC,
         OPTION_APPROVE_MODE,
         OPTION_VERIFICATION_METHOD,
+        OPTION_TEMPORARY_PASSWORD_LENGTH,
         OPTION_PROXY_URL,
         OPTION_PROXY_USERNAME,
         OPTION_PROXY_PASSWORD,
