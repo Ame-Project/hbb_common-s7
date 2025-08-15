@@ -39,7 +39,7 @@ pub const REG_INTERVAL: i64 = 15_000;
 pub const COMPRESS_LEVEL: i32 = 3;
 const SERIAL: i32 = 3;
 const PASSWORD_ENC_VERSION: &str = "00";
-pub const ENCRYPT_MAX_LEN: usize = 128; // used for password, pin, etc., not for all
+pub const ENCRYPT_MAX_LEN: usize = 128; // used for password, pin, etc, not for all
 
 #[cfg(target_os = "macos")]
 lazy_static::lazy_static! {
@@ -100,8 +100,8 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["link-sp-2.ru2023.top"];
-pub const RS_PUB_KEY: &str = "phUHl9GVcOUSjGBnlXg4a3D1cBrB6aR0TTssbAMY1ng=";
+pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
+pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -1368,7 +1368,7 @@ impl PeerConfig {
     }
 
     // The number of peers to load in the first round when showing the peers card list in the main window.
-    // When there are too many peers, loading all of them at once will take a long time.
+    // When there're too many peers, loading all of them at once will take a long time.
     // We can load them in two rouds, the first round loads the first 100 peers, and the second round loads the rest.
     // Then the UI will show the first 100 peers first, and the rest will be loaded and shown later.
     pub const BATCH_LOADING_COUNT: usize = 100;
@@ -1902,7 +1902,7 @@ pub struct UserDefaultConfig {
 impl UserDefaultConfig {
     fn read(key: &str) -> String {
         let mut cfg = USER_DEFAULT_CONFIG.write().unwrap();
-        // we do so, because default config may change in another process, but we don't sync it
+        // we do so, because default config may changed in another process, but we don't sync it
         // but no need to read every time, give a small interval to avoid too many redundant read waste
         if cfg.1.elapsed() > Duration::from_secs(1) {
             *cfg = (Self::load(), Instant::now());
